@@ -1,6 +1,6 @@
 package common.config;
 
-public class RegisterConfig {
+public class RegistryConfig {
 
     private String id;
 

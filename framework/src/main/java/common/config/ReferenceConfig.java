@@ -92,7 +92,7 @@ public class ReferenceConfig  implements InitializingBean, ApplicationContextAwa
     }
 
     private void subscribeServiceChange() {
-        RegisterConfig register = (RegisterConfig) SpringUtil.getApplicationContext().getBean("register");
+        RegistryConfig register = (RegistryConfig) SpringUtil.getApplicationContext().getBean("register");
         String path = "/samples/" + name + "/provider";
         log.info("Start subscription service: [" + path + "]");
         // 订阅子目录变化
@@ -103,7 +103,7 @@ public class ReferenceConfig  implements InitializingBean, ApplicationContextAwa
     public void getReferences() throws Exception {
         String path = "/samples/" + name + "/provider";
         log.info("正在获取引用服务:[" + path + "]");
-        RegisterConfig register = (RegisterConfig) SpringUtil.getApplicationContext().getBean("register");
+        RegistryConfig register = (RegistryConfig) SpringUtil.getApplicationContext().getBean("register");
         services = new ArrayList<>();
         ZookeeperClient zookeeperClient = ZookeeperClient.getInstance(register.getIp(), register.getPort());
         List<String> nodes = zookeeperClient.getChildNodes(path);
@@ -120,7 +120,7 @@ public class ReferenceConfig  implements InitializingBean, ApplicationContextAwa
     }
 
     private void registerReference() throws UnknownHostException {
-        RegisterConfig register = (RegisterConfig) SpringUtil.getApplicationContext().getBean("register");
+        RegistryConfig register = (RegistryConfig) SpringUtil.getApplicationContext().getBean("register");
         ip = InetAddress.getLocalHost().getHostAddress();
 
         // zookeeper

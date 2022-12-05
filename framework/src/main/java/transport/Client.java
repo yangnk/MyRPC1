@@ -1,5 +1,7 @@
 package transport;
 
+import balance.LoadBalance;
+import common.config.ClientConfig;
 import common.config.ReferenceConfig;
 import common.config.ServiceConfig;
 import io.netty.bootstrap.Bootstrap;
@@ -11,9 +13,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import serialization.protocol.Request;
 import serialization.protocol.Response;
 import serialization.codec.*;
+import utils.SpringUtil;
 
 @Slf4j
 public class Client {
@@ -41,20 +45,31 @@ public class Client {
                         ch.pipeline().addLast(new Decoder(Response.class));
 
                         clientHandler = new ClientHandler();
-//                        ch.pipeline().addLast(new RpcReadTimeoutHandler(clientHandler, referenceConfig.getTimeout(), TimeUnit.MILLISECONDS));//todo 可以加上超时处理器
                         ch.pipeline().addLast(clientHandler);
                     }
                 });
 
         try {
-            channelFuture = bootstrap.connect(referenceConfig.getDirectServerIp(), referenceConfig.getDirectServerPort()).sync();
-            log.info("=== client connnect success. ===");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            if (!StringUtils.isEmpty(referenceConfig.getDirectServerIp())) {
+                channelFuture = bootstrap.connect(referenceConfig.getDirectServerIp(), referenceConfig.getDirectServerPort()).sync();
+                log.info("successfully connected");
+            } else {
+                ClientConfig client = (ClientConfig) SpringUtil.getApplicationContext().getBean("client");
+                log.info("the load balancing strategy is: " + client.getLoadBalance());
+
+                ServiceConfig serviceConfig = LoadBalance.getService(referenceConfig, client.getLoadBalance());
+
+                if (serviceConfig == null) {
+                    return null;
+                }
+                channelFuture = bootstrap.connect(serviceConfig.getIp(), serviceConfig.getPort()).sync();
+                log.info("successfully connected to the server: " + serviceConfig.getIp() + ":" + serviceConfig.getPort());
+                return serviceConfig;
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return null;
-        //todo 可以完善负载均衡策略
     }
 
     /**

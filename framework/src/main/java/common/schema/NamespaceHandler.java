@@ -1,6 +1,7 @@
-package common.config;
+package common.schema;
 
-import common.SimpleBeanDefinitionParser;
+import common.config.*;
+import common.schema.SimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 public class NamespaceHandler extends NamespaceHandlerSupport {

@@ -1,4 +1,4 @@
-package serialization.protocol;
+package protocol.entity;
 
 import common.config.ServiceConfig;
 import lombok.Data;

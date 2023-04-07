@@ -21,9 +21,6 @@ import common.config.ReferenceConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author crazyhzm@apache.org
- */
 public final class ReferenceUtil {
 
     private static final Map<String, ReferenceConfig> referenceConfigMap = new HashMap<String, ReferenceConfig>();

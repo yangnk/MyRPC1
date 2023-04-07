@@ -11,10 +11,10 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-@Data
+//@Data
 @Slf4j
-public class ServiceConfig implements InitializingBean, ApplicationContextAware, Serializable {
-    private ApplicationContext applicationContext;
+public class ServiceConfig implements InitializingBean, ApplicationContextAware, Serializable{
+    private transient ApplicationContext applicationContext;
     private String id;
     private String name;
     private String impl;
@@ -59,7 +59,70 @@ public class ServiceConfig implements InitializingBean, ApplicationContextAware,
         ZookeeperClient client = ZookeeperClient.getInstance(register.getIp(), register.getPort());
         client.createPath(basePath);
         this.setIp(InetAddress.getLocalHost().getHostAddress());
+//        client.saveNode(path, "1111111111");
         client.saveNode(path, this);
         log.info("service published successfully: [" + path + "]");
+    }
+
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", impl='" + impl + '\'' +
+                ", ref='" + ref + '\'' +
+                ", ip='" + ip + '\'' +
+                ", port=" + port +
+                ", version=" + version +
+                '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImpl() {
+        return impl;
+    }
+
+    public void setImpl(String impl) {
+        this.impl = impl;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

@@ -1,4 +1,4 @@
-package serialization.codec;
+package protocol.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

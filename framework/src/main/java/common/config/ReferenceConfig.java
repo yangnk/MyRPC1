@@ -8,6 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.StringUtils;
+import proxy.javassist.JavassistProxyFactory;
 import registry.ServiceChangeListener;
 import registry.ZookeeperClient;
 import utils.ReferenceUtil;
@@ -21,13 +22,13 @@ import java.util.List;
 @Data
 @Slf4j
 public class ReferenceConfig  implements InitializingBean, ApplicationContextAware, FactoryBean, Serializable {
-    public ApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
     public String id;
     public String name;
     public String directServerIp;
     public int directServerPort;
     public String version;
-    public long timeOut;
+    public long timeout;
     public long refCount;
     public transient List<ServiceConfig> services;
     public String ip;
@@ -39,11 +40,18 @@ public class ReferenceConfig  implements InitializingBean, ApplicationContextAwa
 
     @Override
     public Object getObject() throws Exception {
-        return null;
+        Class<?> clazz = getObjectType();
+        // 动态代理，获取远程服务实例
+        return JavassistProxyFactory.PROXY_FACTORY.getProxy(clazz, this);
     }
 
     @Override
     public Class<?> getObjectType() {
+        try {
+            return Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            log.error("没有对应的服务", e);
+        }
         return null;
     }
 

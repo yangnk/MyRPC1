@@ -3,7 +3,7 @@ package transport;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.Data;
-import serialization.protocol.Response;
+import protocol.entity.Response;
 
 /**
  * 客户端client的处理类

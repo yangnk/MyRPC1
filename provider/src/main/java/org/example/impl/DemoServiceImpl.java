@@ -1,4 +1,4 @@
-package org.example.provider;
+package org.example.impl;
 
 import org.example.api.DemoService;
 

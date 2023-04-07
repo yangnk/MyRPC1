@@ -5,8 +5,8 @@ import utils.TypeParseUtil;
 import common.config.ServiceConfig;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import serialization.protocol.Request;
-import serialization.protocol.Response;
+import protocol.entity.Request;
+import protocol.entity.Response;
 import java.util.Map;
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {

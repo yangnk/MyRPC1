@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:rpc="www.yangnk.com/schema/yangnkrpc"
+       xmlns:rpc="https://www.crazyhzm.com/schema/crazyrpc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
-       https://www.yangnk.com/schema/yangnkrpc
-       https://www.yangnk.com/schema/yangnk/rpc.xsd">
+       https://www.crazyhzm.com/schema/crazyrpc
+       https://www.crazyhzm.com/schema/crazyhzm/rpc.xsd">
+
 
     <!-- 应用 -->
     <rpc:application name="demo_consumer"/>
 
     <rpc:client/>
+
     <!-- 注册中心 -->
     <rpc:registry ip="127.0.0.1" port="2181"/>
 

@@ -1,4 +1,4 @@
-package serialization.codec;
+package protocol.codec;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
